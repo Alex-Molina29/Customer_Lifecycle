@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # 1. Base de Datos
+  db:
+    image: postgres:16-alpine
+    container_name: customers-postgres-db
+    restart: always
+    environment:
+      POSTGRES_DB: customersdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Backend (Spring Boot)
+  backend:
+    build:
+      context: ./Backend/customersKata
+      dockerfile: Dockerfile
+    container_name: customers-backend
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/customersdb
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_PROFILES_ACTIVE=dev
+
+  # 3. Frontend (Angular/React) - COMENTADO HASTA QUE CREEMOS EL PROYECTO
+  # frontend:
+  #   build:
+  #     context: ./Frontend
+  #     dockerfile: Dockerfile
+  #   container_name: customers-frontend
+  #   ports:
+  #     - "4200:4200"
+  #   depends_on:
+  #     - backend
+
+volumes:
+  postgres_data:
