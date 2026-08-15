@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "customer")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,10 +19,10 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "document_type", unique = false, nullable = false)
+    @Column(name = "document_type", unique = false, nullable = true)
     private String documentType;
 
-    @Column(name = "document_number", unique = true, nullable = false)
+    @Column(name = "document_number", unique = true, nullable = true)
     private String documentNumber;
 
     @Column(name = "name", unique = false, nullable = false)
@@ -31,6 +31,6 @@ public class Customer {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "phone_number", unique = true, nullable = false)
+    @Column(name = "phone_number", unique = true, nullable = true)
     private String phoneNumber;
 }

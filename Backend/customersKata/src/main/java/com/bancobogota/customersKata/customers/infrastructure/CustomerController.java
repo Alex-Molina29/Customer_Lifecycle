@@ -10,6 +10,7 @@ import com.bancobogota.customersKata.customers.domain.Customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Page;
@@ -21,21 +22,29 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> save(
-            @Valid @RequestBody CustomerRequest request,
+    public ResponseEntity<List<CustomerResponse>> save(
+            @Valid @RequestBody List<CustomerRequest> requests,
             UriComponentsBuilder uriBuilder
     ) {
-        Customer saved = customerService.createCustomer(request);
-        URI location = uriBuilder.path("/api/customers/{documentNumber}")
-                .buildAndExpand(saved.getDocumentNumber())
-                .toUri();
-        return ResponseEntity.created(location).body(CustomerResponse.of(saved));
+        List<Customer> savedCustomers = customerService.createCustomer(requests);
+        List<CustomerResponse> response = savedCustomers.stream().map(CustomerResponse::of).toList();
+
+        return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED).body(response);
+
+        //Customer savedCustomers = customerService.createCustomer(requests);
+
+
+//        URI location = uriBuilder.path("/api/customers/{documentNumber}")
+//                .buildAndExpand(saved.getDocumentNumber())
+//                .toUri();
+//        return ResponseEntity.created(location).body(CustomerResponse.of(saved));
     }
 
     @GetMapping

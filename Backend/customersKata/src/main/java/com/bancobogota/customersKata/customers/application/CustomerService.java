@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,14 +48,17 @@ public class CustomerService {
         return customerRepository.findAll(specification, pageable);
     }
 
-    public Customer createCustomer(CustomerRequest request) {
-        Customer customer = Customer.builder()
-                .documentType(request.getDocumentType())
-                .documentNumber(request.getDocumentNumber())
-                .name(request.getName())
-                .email(request.getEmail())
-                .phoneNumber(request.getPhoneNumber())
-                .build();
-        return customerRepository.save(customer);
+    public List<Customer> createCustomer(List<CustomerRequest> requests) {
+
+        List<Customer> customers = requests.stream()
+                .map(request -> Customer.builder()
+                    .documentType(request.getDocumentType())
+                    .documentNumber(request.getDocumentNumber())
+                    .name(request.getName())
+                    .email(request.getEmail())
+                    .phoneNumber(request.getPhoneNumber())
+                    .build())
+                .toList();
+        return customerRepository.saveAll(customers);
     }
 }

@@ -44,6 +44,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
+        ex.printStackTrace(); // TEMPORAL — borrar cuando termines de depurar
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Ocurrió un error inesperado.");
     }
 

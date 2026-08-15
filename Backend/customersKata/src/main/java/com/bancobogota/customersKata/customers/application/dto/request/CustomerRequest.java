@@ -6,10 +6,8 @@ import lombok.Data;
 
 @Data
 public class CustomerRequest {
-    @NotBlank(message = "El tipo de documento es obligatorio")
-    private String documentType;
 
-    @NotBlank(message = "El número de documento es obligatorio")
+    private String documentType;
     private String documentNumber;
 
     @NotBlank(message = "El nombre es obligatorio")
@@ -19,6 +17,5 @@ public class CustomerRequest {
     @Email(message = "El email no tiene un formato válido")
     private String email;
 
-    @NotBlank(message = "El teléfono es obligatorio")
     private String phoneNumber;
 }
