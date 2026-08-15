@@ -1,0 +1,41 @@
+.auth-container-register {
+  background-color: #FFFFFF;
+  width: 100%;
+  max-width: 420px;
+  min-width: 350px;
+  padding: 2.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-top: 6px solid var(--bdb-yellow);
+}
+
+.auth-container-register h1 {
+  color: var(--bdb-navy);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.auth-container-register form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container-register p {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.auth-container-register a {
+  color: var(--bdb-navy);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.auth-container-register a:hover {
+  color: var(--bdb-navy-hover);
+  text-decoration: underline;
+}

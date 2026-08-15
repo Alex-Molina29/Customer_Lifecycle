@@ -1,0 +1,33 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+*/ 
+:root {
+  --bg-color: #F6FAFF;        
+  --bdb-blue: #0043A9;      
+  --bdb-blue-hover: #003280;
+  --bdb-yellow: #FFDD00;    
+  --card-bg: #FFFFFF;       
+  --text-color: #2B3674;
+  --border-color: #E0E5F2;
+  --danger-color: #D32F2F;
+  --danger-bg: #FDEDED;
+  --success-color: #2E7D32;
+  --success-bg: #EDF7ED;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, #root {
+  font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+}

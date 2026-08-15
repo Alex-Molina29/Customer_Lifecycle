@@ -1,0 +1,28 @@
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--bdb-navy);
+}
+
+.form-field input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  color: var(--text-color);
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.form-field input:focus {
+  border-color: var(--bdb-navy);
+  box-shadow: 0 0 0 3px rgba(0, 34, 68, 0.15);
+}
