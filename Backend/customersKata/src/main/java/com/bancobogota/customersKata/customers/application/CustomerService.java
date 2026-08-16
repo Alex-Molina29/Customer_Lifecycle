@@ -24,6 +24,11 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    public Customer findById(Long id) {
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("No se encontró un cliente con el id: " + id));
+    }
+
     public Customer findByDocumentNumber(String documentNumber) {
         Customer customer = customerRepository.findByDocumentNumber(documentNumber);
         if (customer == null) {
@@ -43,7 +48,8 @@ public class CustomerService {
                 filter.getDocumentNumber(),
                 filter.getName(),
                 filter.getEmail(),
-                filter.getPhoneNumber()
+                filter.getPhoneNumber(),
+                filter.getSearch()
         );
         return customerRepository.findAll(specification, pageable);
     }
@@ -60,5 +66,20 @@ public class CustomerService {
                     .build())
                 .toList();
         return customerRepository.saveAll(customers);
+    }
+
+    public Customer updateCustomer(Long id, CustomerRequest request) {
+        Customer customer = findById(id);
+        customer.setDocumentType(request.getDocumentType());
+        customer.setDocumentNumber(request.getDocumentNumber());
+        customer.setName(request.getName());
+        customer.setEmail(request.getEmail());
+        customer.setPhoneNumber(request.getPhoneNumber());
+        return customerRepository.save(customer);
+    }
+
+    public void deleteCustomer(Long id) {
+        Customer customer = findById(id);
+        customerRepository.delete(customer);
     }
 }

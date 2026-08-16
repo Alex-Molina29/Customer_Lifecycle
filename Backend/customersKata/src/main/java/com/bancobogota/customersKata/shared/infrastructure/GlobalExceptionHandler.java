@@ -1,5 +1,6 @@
-package com.bancobogota.customersKata.shared.infrastucture;
+package com.bancobogota.customersKata.shared.infrastructure;
 
+import com.bancobogota.customersKata.auth.domain.exception.UsernameAlreadyExistsException;
 import com.bancobogota.customersKata.customers.domain.exception.CustomerNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
         ex.printStackTrace(); // TEMPORAL — borrar cuando termines de depurar
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Ocurrió un error inesperado.");
+    }
+
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleUsernameAlreadyExists(UsernameAlreadyExistsException ex) {
+        return buildResponse(HttpStatus.CONFLICT, "El cliente existe");
     }
 
     private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String message) {

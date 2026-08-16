@@ -18,9 +18,22 @@ public class CustomerSpecification {
             String documentNumber,
             String name,
             String email,
-            String phoneNumber
+            String phoneNumber,
+            String search
     ) {
         return (root, query, cb) -> {
+            if(StringUtils.hasText(search)){
+                String pattern = "%" + search.toLowerCase() + "%";
+                return cb.or(
+                        cb.like(cb.lower(root.get("documentNumber")), pattern),
+                        cb.like(cb.lower(root.get("name")), pattern),
+                        cb.like(cb.lower(root.get("email")), pattern),
+                        cb.like(cb.lower(root.get("phoneNumber")), pattern),
+                        cb.like(cb.lower(root.get("documentType")), pattern)
+                );
+            }
+
+
             List<Predicate> predicates = new ArrayList<>();
 
             if (StringUtils.hasText(documentType)) {
