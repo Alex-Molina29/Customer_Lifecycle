@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # 1. Base de Datos
   db:
     image: postgres:16-alpine
     container_name: customers-postgres-db
@@ -15,7 +14,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # 2. Backend (Spring Boot)
   backend:
     build:
       context: ./Backend/customersKata
@@ -32,16 +30,16 @@ services:
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_PROFILES_ACTIVE=dev
 
-  # 3. Frontend (Angular/React) - COMENTADO HASTA QUE CREEMOS EL PROYECTO
-  # frontend:
-  #   build:
-  #     context: ./Frontend
-  #     dockerfile: Dockerfile
-  #   container_name: customers-frontend
-  #   ports:
-  #     - "4200:4200"a
-  #   depends_on:
-  #     - backend
+  frontend:
+    build:
+      context: ./Frontend/frontend
+      dockerfile: Dockerfile
+    container_name: customers-frontend
+    restart: on-failure
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
