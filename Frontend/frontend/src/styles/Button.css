@@ -2,25 +2,25 @@
   width: 100%;
   padding: 0.85rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
   margin-top: 0.5rem;
 }
 
 .btn-primary {
-  background-color: var(--bdb-yellow);
-  color: var(--bdb-navy);
+  background-color: var(--bdb-blue);
+  color: #FFFFFF;
 }
 
 .btn-primary:hover {
-  background-color: var(--bdb-yellow-hover);
+  background-color: var(--bdb-blue-hover);
+  box-shadow: 0 4px 12px rgba(0, 67, 169, 0.25);
 }
 
 .btn-primary:active {
@@ -28,11 +28,50 @@
 }
 
 .btn-text.primary {
-  color: var(--bdb-navy);
+  color: #FFFFFF;
   font-weight: 700;
 }
 
-.btn-icon-img {
-  width: 20px;
-  height: 20px;
+.btn-danger {
+  background-color: var(--danger-color);
+  color: #FFFFFF;
+}
+
+.btn-danger:hover {
+  background-color: #B71C1C;
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.25);
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  color: #FFFFFF;
+}
+
+.btn-success:hover {
+  background-color: #1B5E20;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
+}
+
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: var(--bdb-blue);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-color);
+  box-shadow: none;
+}
+
+.btn:disabled {
+  background-color: #C9CEDD;
+  color: #FFFFFF;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--bdb-blue);
+  outline-offset: 2px;
 }

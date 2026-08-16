@@ -1,50 +1,81 @@
-.auth-container-login {
-  background-color: #FFFFFF;
+.auth-card {
+  background-color: var(--card-bg);
   width: 100%;
-  max-width: 420px;
-  padding: 2.5rem 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  border-top: 6px solid var(--bdb-yellow);
+  max-width: 850px;
+  min-height: 480px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 67, 169, 0.08);
+  overflow: hidden;
 }
 
-.auth-container-login h1 {
-  color: var(--bdb-navy);
+/* Panel Izquierdo */
+.auth-banner {
+  background: linear-gradient(135deg, var(--bdb-blue) 0%, #002D72 100%);
+  color: #FFFFFF;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  margin-bottom: 2rem;
+  position: relative;
+}
+
+.auth-banner h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.auth-banner p {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* Panel Derecho (Formulario) */
+.auth-form-container {
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-form-container h1 {
+  color: var(--bdb-blue);
   font-size: 1.75rem;
   font-weight: 700;
+  margin-bottom: 1.5rem;
 }
 
-.auth-container-login form {
+.auth-form-container form {
   display: flex;
   flex-direction: column;
 }
 
-.auth-container-login p {
+.auth-form-container p {
   text-align: center;
   margin-top: 1.5rem;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
-.auth-container-login a {
-  color: var(--bdb-navy);
+.auth-form-container a {
+  color: var(--bdb-blue);
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.2s;
 }
 
-.auth-container-login a:hover {
-  color: var(--bdb-navy-hover);
+.auth-form-container a:hover {
   text-decoration: underline;
 }
 
-.error {
-  color: var(--danger-color);
-  background-color: var(--danger-bg);
-  font-size: 0.875rem;
-  padding: 0.75rem;
-  border-radius: 4px;
-  border-left: 4px solid var(--danger-color);
-  margin-bottom: 1rem;
+/* Adaptabilidad para pantallas pequeñas */
+@media (max-width: 768px) {
+  .auth-card {
+    grid-template-columns: 1fr;
+  }
+  .auth-banner {
+    padding: 2rem 1.5rem;
+  }
 }

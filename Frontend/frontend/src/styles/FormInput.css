@@ -1,28 +1,78 @@
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
   margin-bottom: 1.25rem;
 }
 
 .form-field label {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--bdb-navy);
+  color: var(--bdb-blue);
 }
 
-.form-field input {
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
   width: 100%;
-  padding: 0.75rem 1rem;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 0.8rem 2.8rem 0.8rem 1rem; 
   border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
   color: var(--text-color);
-  transition: all 0.2s ease-in-out;
+  background-color: #FAFCFE;
+  transition: all 0.2s ease;
   outline: none;
 }
 
-.form-field input:focus {
-  border-color: var(--bdb-navy);
-  box-shadow: 0 0 0 3px rgba(0, 34, 68, 0.15);
+.input-wrapper select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  background-color: #FAFCFE;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-wrapper input:focus {
+  border-color: var(--bdb-blue);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(0, 67, 169, 0.12);
+}
+
+.input-wrapper select:focus {
+  border-color: var(--bdb-blue);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(0, 67, 169, 0.12);
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 0.8rem;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: auto; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #8F9BBA;
+  transition: color 0.2s ease;
+}
+
+.toggle-password-btn:hover {
+  color: var(--bdb-blue);
+  background: none;
+  box-shadow: none;
 }

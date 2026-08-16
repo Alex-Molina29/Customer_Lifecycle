@@ -1,27 +1,42 @@
 import "../styles/Register.css";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";
+import { AuthContext } from "../context/AuthContext";
+import { register } from "../services/authService";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [verifyPassword, setVerifyPassword] = useState("");
   const [error, setError] = useState("");
-  const { success, setSuccess } = useState(false);
+  const [success, setSuccess] = useState(false);
 
+  const { token } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+      if (token) {
+        navigate("/customers", { replace: true });
+      }
+    }, [token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      console.log(username, password);
-      setSuccess(true);
-      setTimeout(() => navigate("/login"), 1500);
+      if (verifyPassword === password) {
+        await register(username, password, "USER");
+        setSuccess(true);
+        setTimeout(() => navigate("/login"), 1500);
+      } else {
+        setSuccess(false);
+        setError("Las contraseñas son diferentes");
+      }
     } catch (error) {
       setError("No se pudo crear el usuario (puede encontrarse ya registrado)");
       console.log(error.message);
@@ -36,12 +51,16 @@ export default function Register() {
     setPassword(e.target.value);
   };
 
+  const changeVerifyPassword = (e) => {
+    setVerifyPassword(e.target.value);
+  };
+
   return (
     <div className="auth-card">
       <div className="auth-banner">
         <p>Bienvenido al portal de gestión</p>
       </div>
-      <div className="auth-container-register">
+      <div className="auth-form-container">
         <h1>Registrate</h1>
         <form onSubmit={handleSubmit}>
           <FormInput
@@ -57,6 +76,15 @@ export default function Register() {
             type="password"
             value={password}
             onChange={changePassword}
+            required
+          />
+
+          <FormInput
+            label="Vuelva a ingresar su contraseña"
+            name="password"
+            type="password"
+            value={verifyPassword}
+            onChange={changeVerifyPassword}
             required
           />
           {error && <p className="error">{error}</p>}

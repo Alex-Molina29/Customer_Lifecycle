@@ -1,0 +1,335 @@
+.customer-page {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.customer-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.customer-page-header > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.75rem 2.25rem;
+}
+
+.customer-page-header > div:first-child > div:first-child {
+  flex: 1;
+}
+
+.customer-page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--bdb-blue);
+  margin-bottom: 0.4rem;
+}
+
+.customer-page-header p {
+  font-size: 1rem;
+  color: var(--text-color);
+  opacity: 0.75;
+  max-width: 48ch;
+}
+
+.customer-page-header > div:first-child button {
+  width: auto;
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+/* ---------- Toolbar ---------- */
+
+.customer-page-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.customer-page-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.customer-page-filters .form-field {
+  flex: 1;
+  min-width: 220px;
+  margin-bottom: 0;
+}
+
+.customer-page-filters > button {
+  width: auto;
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+.customer-page-actions {
+  display: flex;
+}
+
+.customer-page-actions button {
+  width: auto;
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+.customer-page-filters-size {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-color);
+}
+
+.customer-page-filters-size select {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: #FAFCFE;
+  color: var(--text-color);
+  font-size: 0.88rem;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.customer-page-filters-size select:focus {
+  border-color: var(--bdb-blue);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(0, 67, 169, 0.12);
+}
+
+.customer-page__error {
+  background: var(--danger-bg);
+  color: var(--danger-color);
+  border: 1px solid rgba(211, 47, 47, 0.25);
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* ---------- Tabla ---------- */
+
+.customer-page-header > p {
+  text-align: center;
+  padding: 2.5rem;
+  color: var(--text-color);
+  opacity: 0.6;
+  background: var(--card-bg);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.customer-table thead th {
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--bdb-blue);
+  background: var(--bg-color);
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.customer-table tbody tr {
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.customer-table tbody tr:not(:last-child) td {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.customer-table tbody tr:hover {
+  background: var(--bg-color);
+  border-left-color: var(--bdb-blue);
+}
+
+.customer-table td {
+  padding: 0.85rem 1.1rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.customer-table td:last-child {
+  text-align: right;
+}
+
+.customer-table td:last-child button {
+  width: auto;
+  margin-top: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+}
+
+/* ---------- Paginación ---------- */
+
+.customer-page-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.customer-page-pagination button {
+  width: auto;
+  margin-top: 0;
+}
+
+.customer-page-pagination span {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
+/* ---------- Modal ---------- */
+
+.customer-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 54, 116, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.customer-modal {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 20px 48px rgba(43, 54, 116, 0.28);
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-top: 4px solid var(--bdb-blue);
+}
+
+.customer-modal h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bdb-blue);
+  margin-bottom: 0.25rem;
+}
+
+.customer-modal h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.customer-modal-view-details p {
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.customer-modal-view-details p strong {
+  display: inline-block;
+  min-width: 160px;
+  color: var(--bdb-blue);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.customer-modal-form {
+  margin-top: 0.5rem;
+}
+
+.customer-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.customer-modal-actions button {
+  width: auto;
+  margin-top: 0;
+}
+
+.error {
+  color: var(--danger-color);
+  font-size: 0.85rem;
+  background: var(--danger-bg);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.success-register {
+  color: var(--success-color);
+  font-size: 0.85rem;
+  background: var(--success-bg);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .customer-page-header > div:first-child {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .customer-page-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .customer-page-filters .form-field {
+    min-width: 0;
+  }
+
+  .customer-table {
+    font-size: 0.85rem;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .customer-modal-view-details p strong {
+    display: block;
+    min-width: 0;
+    margin-bottom: 0.15rem;
+  }
+}

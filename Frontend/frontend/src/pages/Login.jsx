@@ -1,9 +1,10 @@
 import "../styles/Login.css";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import { AuthContext } from "../context/AuthContext";
+import { login as loginRequest } from "../services/authService";
 
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";
@@ -13,16 +14,23 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { login } = useContext(AuthContext);
+  const { login, token } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      navigate("/customers", { replace: true });
+    }
+  }, [token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const response = "Simulación del login";
-      console.log(response);
+
+      const { token: newToken } = await loginRequest(username, password)
+      login(newToken)
       navigate("/customers");
     } catch (error) {
       setError("Usuario o contraseña incorrectos.");
