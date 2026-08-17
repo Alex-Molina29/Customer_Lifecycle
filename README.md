@@ -9,8 +9,8 @@ El frontend está desarrollado de forma independiente y se comunica con el backe
 ## Stack tecnologico
 
 - **Backend**: Java 21 + Spring Boot.
-- **Frontend**: React + Vite, servido en producción con Nginx.
-- **Base de datos**: PostgreSQL (Local vía Docker, en la nube vía Neon)
+- **Frontend**: React + Vite, en producción con Nginx.
+- **Base de datos**: PostgreSQL (local vía Docker, en la nube vía Neon)
 - **Autenticación**: JWT
 - **Contenedores**: Docker + docker compose
 - **CI/CD**: GitHub Actions
@@ -75,6 +75,32 @@ Vale aclarar que ninguna credencial real vive en el código fuente. Los archivos
 
 ## Ejecución del proyecto 
 
+### Con docker-compose
+
+La forma recomendada para ejecutar el proyecto completo es mediante docker-compose, ya que así se asegura de contar con todo lo necesario.
+
+Desde la carpeta raíz del proyecto, ejecutar:
+
+```bash
+docker-compose up --build -d
+```
+
+Y tenga en cuenta que para detener la ejecución lo puede hacer con el siguiente comando: 
+
+```bash
+docker-compose down
+```
+
+### Levantar únicamente la Base de Datos
+
+Si se desea ejecutar el backend manualmente desde tu IDE (fuera de Docker) para depurar el código, se puede levantar exclusivamente el contenedor de PostgreSQL sin iniciar el resto de los servicios:
+
+```bash
+docker-compose up -d db
+```
+
+(Esto iniciará solo la base de datos en segundo plano, dejándola lista en el puerto 5433 como se definió en el compose).
+
 #### Inicializar la estructura de la base de datos (local)
 
 Si estás levantando el proyecto por primera vez y necesitas crear las tablas manualmente a partir del dump, asegúrate de que el contenedor de Docker esté corriendo y ejecuta el comando correspondiente a tu terminal desde la raíz del proyecto:
@@ -89,27 +115,11 @@ Si usas PowerShell (Windows):
 Get-Content schema.sql | docker exec -i customers-postgres-db psql -U admin -d customersdb_prod
 ``` 
 
-### Con docker-compose
-
-La forma recomendada para ejecutar el proyecto completo es mediante docker-compose, ya que con esto se asegura de tener todo lo necesario.
-
-Desde la carpeta raíz del proyecto, ejecutar:
-
-```bash
-docker-compose up --build -d
-```
-
-Y tenga en cuenta que para detener la ejecución lo puede hacer con el siguiente comando: 
-
-```bash
-docker-compose down
-```
-
 ### Ejecución local desde consola
 
 #### Backend
 
-Debe abrir una terminal y ubicarse en el directorio del backend (Tenga presente que es necesario tener la base de datos lista para que se pueda conectar):
+Debe abrir una terminal y ubicarse en el directorio del backend (tenga presente que es necesario tener la base de datos lista para que se pueda conectar):
 ```bash
 cd Backend/customersKata
 ```
@@ -137,7 +147,7 @@ pnpm dev
 
 ### Ejecutando el jar directamente
 
-#### Entorno de desarollo
+#### Entorno de desarrollo
  
 ```bash
 cd Backend/customersKata
@@ -149,12 +159,12 @@ Al arrancar, la consola muestra:
 === Ejecutando en DEV === (puerto: 8080)
 ```
 
-## Construcción del proyecto
+## Construcción del proyecto sin Docker
  
 ### Requisitos previos
 
 - Docker y docker-compose
-- (Opcional, para desarrollo fuera de Docker) Java 21 y Maven, Node 20 y pnpm
+- Java 21 y Maven, Node 20 y pnpm
 
 ### Backend — build manual
  
@@ -174,14 +184,6 @@ pnpm run build
 ```
 
 Genera los estáticos en `Frontend/frontend/dist/`. 
-
-### Build completo vía Docker (recomendado)
- 
-```bash
-docker-compose up --build -d
-```
- 
-Construye las imágenes correspondientes a los servicios definidos en Docker Compose y levanta el contenedor de PostgreSQL.
  
 #### Entorno de producción (al ser local una simulación)
  
