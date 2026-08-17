@@ -8,6 +8,7 @@ import CustomerTable from "../components/customer/CustomerTable";
 import CustomerModal from "../components/customer/CustomerModal";
 
 import "../styles/customer-page.css";
+import Loader from "../components/Loader";
 
 const COLUMNS = [
   { key: "documentNumber", label: "Número de documento" },
@@ -19,6 +20,7 @@ export default function CustomerPage() {
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [loadingCustomer, setLoadingCustomer] = useState(false);
   const [error, setError] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
@@ -67,6 +69,12 @@ export default function CustomerPage() {
     setPage(0);
   };
 
+  const handleClearSearch = () => {
+    setSearchInput("");
+    setSearch("");
+    setPage(0);
+  };
+
   const handleSearchKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSearchClick();
@@ -88,23 +96,44 @@ export default function CustomerPage() {
   };
 
   const handleOnRowClick = async (customer) => {
-    const customerFounded = await getCustomerById(customer.id);
-    if (!customerFounded) {
-      setError("Cliente no encontrado");
-      return;
-    }
+    if (loadingCustomer) return;
+    setLoadingCustomer(true);
     setError("");
-    setModalState({ mode: "view", customer: customerFounded });
+    try {
+      const customerFounded = await getCustomerById(customer.id);
+      if (!customerFounded) {
+        setError("Cliente no encontrado");
+        return;
+      }
+      setError("");
+      setModalState({ mode: "view", customer: customerFounded });
+    } catch (error) {
+      setError("Error al obtener el cliente");
+      console.log(error.message);
+    } finally {
+      setLoadingCustomer(false);
+    }
   };
 
   const handleOnDeleteClick = async (customer) => {
-    const customerFounded = await getCustomerById(customer.id);
-    if (!customerFounded) {
-      setError("Cliente no encontrado");
-      return;
-    }
+    if (loadingCustomer) return;
+    setLoadingCustomer(true);
     setError("");
-    setModalState({ mode: "delete", customer: customerFounded });
+
+    try {
+      const customerFounded = await getCustomerById(customer.id);
+      if (!customerFounded) {
+        setError("Cliente no encontrado");
+        return;
+      }
+      setError("");
+      setModalState({ mode: "delete", customer: customerFounded });
+    } catch (error) {
+      setError("Error al obtener el cliente");
+      console.log(error.message);
+    } finally {
+      setLoadingCustomer(false);
+    }
   };
 
   const handleCreateClientClick = () => {
@@ -131,6 +160,15 @@ export default function CustomerPage() {
               onChange={handleSearchInputChange}
               onKeyDown={handleSearchKeyDown}
             />
+
+            {searchInput.trim() && (
+              <Button
+                onClick={handleClearSearch}
+                text="Limpiar"
+                variant="secondary"
+              />
+            )}
+
             <Button onClick={handleSearchClick} text="Buscar" />
 
             <div className="customer-page-actions">
@@ -148,6 +186,7 @@ export default function CustomerPage() {
         </div>
 
         {error && <p className="customer-page__error">{error}</p>}
+        {loadingCustomer && <Loader text="Cargando cliente..." />}
 
         <CustomerTable
           columns={COLUMNS}
@@ -169,7 +208,7 @@ export default function CustomerPage() {
           {search ? " encontrados" : " en total"})
         </span>
         <Button
-        variant="secondary"
+          variant="secondary"
           disabled={page + 1 >= totalPages}
           onClick={() =>
             setPage((prevPage) => Math.min(prevPage + 1, totalPages - 1))

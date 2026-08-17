@@ -13,6 +13,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Ejecutar pruebas unitarias
+        run: |
+          cd Backend/customersKata
+          mvn test
+
       - id: auth
         uses: google-github-actions/auth@v2
         with:
@@ -64,6 +75,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Ejecutar pruebas unitarias
+        run: |
+          cd Backend/customersKata
+          mvn test
 
       - id: auth
         uses: google-github-actions/auth@v2
