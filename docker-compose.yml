@@ -8,17 +8,18 @@ services:
     environment:
       POSTGRES_DB: customersdb
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
 
-  backend:
+  backend-dev:
     build:
       context: ./Backend/customersKata
       dockerfile: Dockerfile
-    container_name: customers-backend
+    container_name: customers-backend-dev
     restart: on-failure
     ports:
       - "8080:8080"
@@ -27,19 +28,53 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/customersdb
       - SPRING_DATASOURCE_USERNAME=admin
-      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - SPRING_PROFILES_ACTIVE=dev
+      - APP_JWT_SECRET=${JWT_SECRET}
 
-  frontend:
+  backend-prod:
+    build:
+      context: ./Backend/customersKata
+      dockerfile: Dockerfile
+    container_name: customers-backend-prod
+    restart: on-failure
+    ports:
+      - "9090:9090"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/customersdb_prod
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=9090
+      - APP_JWT_SECRET=${JWT_SECRET}
+
+  frontend-dev:
     build:
       context: ./Frontend/frontend
       dockerfile: Dockerfile
-    container_name: customers-frontend
+      args:
+        VITE_API_URL: http://localhost:8080
+    container_name: customers-frontend-dev
     restart: on-failure
     ports:
       - "4200:80"
     depends_on:
-      - backend
+      - backend-dev
+
+  frontend-prod:
+    build:
+      context: ./Frontend/frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:9090
+    container_name: customers-frontend-prod
+    restart: on-failure
+    ports:
+      - "4201:80"
+    depends_on:
+      - backend-prod
 
 volumes:
   postgres_data:

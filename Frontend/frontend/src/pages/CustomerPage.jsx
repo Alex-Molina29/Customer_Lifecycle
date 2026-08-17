@@ -89,7 +89,6 @@ export default function CustomerPage() {
 
   const handleOnRowClick = async (customer) => {
     const customerFounded = await getCustomerById(customer.id);
-    console.log("Customer found:", customerFounded);
     if (!customerFounded) {
       setError("Cliente no encontrado");
       return;
@@ -99,9 +98,7 @@ export default function CustomerPage() {
   };
 
   const handleOnDeleteClick = async (customer) => {
-    console.log("Delete button clicked for customer:", customer);
     const customerFounded = await getCustomerById(customer.id);
-    console.log("Customer found:", customerFounded);
     if (!customerFounded) {
       setError("Cliente no encontrado");
       return;
@@ -111,7 +108,6 @@ export default function CustomerPage() {
   };
 
   const handleCreateClientClick = () => {
-    console.log("Create client clicked");
     setModalState({ mode: "create", customer: null });
   };
 

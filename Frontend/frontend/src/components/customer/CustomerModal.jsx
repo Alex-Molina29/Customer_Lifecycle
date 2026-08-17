@@ -20,7 +20,6 @@ const typeDocumentOptions = [
 ]
 
 export default function CustomerModal({ mode, customer, onClose}) {
-    console.log("CustomerModal props:", { mode, customer });
     const [currentMode, setCurrentMode] = useState(mode);
     const [formData, setFormData] = useState(
         customer ? {  ...initialFormData, ...customer  } : initialFormData
@@ -61,7 +60,6 @@ export default function CustomerModal({ mode, customer, onClose}) {
     const handleConfirmDelete = async () => {
         setSuccess(true);
         try {
-            console.log("Deleting customer:", customer);
             await deleteCustomer(customer.id);
             onClose(true);
         } catch (error) {
@@ -173,7 +171,7 @@ export default function CustomerModal({ mode, customer, onClose}) {
                                     <div className="customer-modal-actions">
                                         <Button 
                                             type="button"
-                                            variant="customer-model-cancel"
+                                            variant="cancel"
                                             onClick={() => onClose(false)}
                                             text="Cancelar"
                                         />
