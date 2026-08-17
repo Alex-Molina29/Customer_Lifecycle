@@ -17,7 +17,7 @@ public class SaludoController {
     }
     
 
-    @GetMapping("/hola")
+    @GetMapping("hola")
     public String holaMundo() {
         return "Hola mundo";
     }
