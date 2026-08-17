@@ -1,22 +1,20 @@
 package com.bancobogota.customersKata.customers.application;
 
-import com.bancobogota.customersKata.customers.application.dto.request.CustomerFilter;
-import com.bancobogota.customersKata.customers.application.dto.request.CustomerRequest;
+import java.util.List;
 
-import com.bancobogota.customersKata.customers.domain.Customer;
-import com.bancobogota.customersKata.customers.domain.exception.CustomerNotFoundException;
-
-import com.bancobogota.customersKata.customers.infrastructure.CustomerRepository;
-import com.bancobogota.customersKata.customers.infrastructure.specification.CustomerSpecification;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.bancobogota.customersKata.customers.application.dto.request.CustomerFilter;
+import com.bancobogota.customersKata.customers.application.dto.request.CustomerRequest;
+import com.bancobogota.customersKata.customers.domain.Customer;
+import com.bancobogota.customersKata.customers.domain.exception.CustomerNotFoundException;
+import com.bancobogota.customersKata.customers.infrastructure.CustomerRepository;
+import com.bancobogota.customersKata.customers.infrastructure.specification.CustomerSpecification;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
