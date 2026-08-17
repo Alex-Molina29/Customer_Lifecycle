@@ -1,4 +1,5 @@
 import Button from "../Button";
+import Loader from "../Loader";
 
 //const columnsExample = [
   //  { key: "documentNumber", label: "Numero de documento" },
@@ -14,7 +15,7 @@ export default function CustomerTable({
 }) {
 
     if(loading) {
-        return <p>Cargando clientes...</p>
+        return <Loader text="Cargando clientes..."></Loader>
     }
 
     if(customers.length === 0) {
