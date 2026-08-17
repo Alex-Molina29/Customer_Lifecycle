@@ -1,0 +1,113 @@
+name: Deploy to Cloud Run
+
+on: 
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  deploy-dev:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          
+      - uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Configurar Docker para Artifact Registry
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+
+      - name: Build y push backend-dev
+        run: |
+          IMAGE=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/customers-kata-repo/backend-dev:${{ github.sha }}
+          docker build -t $IMAGE ./Backend/customersKata
+          docker push $IMAGE
+
+      - name: Deploy backend-dev a Cloud Run
+        id: deploy-backend
+        run: |
+          gcloud run deploy backend-dev \
+            --image=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/customers-kata-repo/backend-dev:${{ github.sha }} \
+            --region=us-central1 \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=8080 \
+            --set-env-vars="SPRING_PROFILES_ACTIVE=dev,SPRING_DATASOURCE_URL=${{ secrets.DEV_DATASOURCE_URL }},APP_JWT_SECRET=${{ secrets.JWT_SECRET }}"
+          echo "url=$(gcloud run services describe backend-dev --region=us-central1 --format='value(status.url)')" >> "$GITHUB_OUTPUT"
+
+      - name: Build y push frontend-dev
+        run: |
+          IMAGE=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/customers-kata-repo/frontend-dev:${{ github.sha }}
+          docker build \
+            --build-arg VITE_API_URL=${{ steps.deploy-backend.outputs.url }} \
+            -t $IMAGE \
+            ./Frontend/frontend
+          docker push $IMAGE
+  
+      - name: Deploy frontend-dev a Cloud Run
+        run: |
+          gcloud run deploy frontend-dev \
+            --image=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/customers-kata-repo/frontend-dev:${{ github.sha }} \
+            --region=us-central1 \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=80
+  
+  deploy-prod:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configurar Docker para Artifact Registry
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+
+      - name: Build y push backend-prod
+        run: |
+          IMAGE=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/customers-kata-repo/backend-prod:${{ github.sha }}
+          docker build -t $IMAGE ./Backend/customersKata
+          docker push $IMAGE
+
+      - name: Deploy backend-prod a Cloud Run
+        id: deploy-backend
+        run: |
+          gcloud run deploy backend-prod \
+            --image=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/customers-kata-repo/backend-prod:${{ github.sha }} \
+            --region=us-central1 \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=9090 \
+            --set-env-vars="SPRING_PROFILES_ACTIVE=prod,SPRING_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }},APP_JWT_SECRET=${{ secrets.JWT_SECRET }}"
+          echo "url=$(gcloud run services describe backend-prod --region=us-central1 --format='value(status.url)')" >> "$GITHUB_OUTPUT"
+  
+      - name: Build y push frontend-prod
+        run: |
+          IMAGE=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/customers-kata-repo/frontend-prod:${{ github.sha }}
+          docker build \
+            --build-arg VITE_API_URL=${{ steps.deploy-backend.outputs.url }} \
+            -t $IMAGE \
+            ./Frontend/frontend
+          docker push $IMAGE
+
+      - name: Deploy frontend-prod a Cloud Run
+        run: |
+          gcloud run deploy frontend-prod \
+            --image=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/customers-kata-repo/frontend-prod:${{ github.sha }} \
+            --region=us-central1 \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=80
+      
