@@ -13,6 +13,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { login, token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -26,15 +27,17 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-
-      const { token: newToken } = await loginRequest(username, password)
-      login(newToken)
+      const { token: newToken } = await loginRequest(username, password);
+      login(newToken);
       navigate("/customers");
     } catch (error) {
       setError("Usuario o contraseña incorrectos.");
       console.log(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,7 +73,11 @@ export default function Login() {
             required
           />
           {error && <p className="error">{error}</p>}
-          <Button type="submit" text="Entrar" />
+          <Button
+            type="submit"
+            text={loading ? "Cargando..." : "Entrar"}
+            disabled={loading}
+          />
         </form>
         <p>
           <Link to="/register">
